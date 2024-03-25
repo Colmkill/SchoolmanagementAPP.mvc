@@ -1,0 +1,6 @@
+{
+  "razor.languageServer.debug": true,
+  "dotnet.server.extensionPaths": [
+    
+  ]
+}
