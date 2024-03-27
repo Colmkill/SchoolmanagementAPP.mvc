@@ -1,5 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using SchoolmanagementAPP.mvc.Data;
 
+var builder = WebApplication.CreateBuilder(args);
+// add services to the (inversion of control (IoC)) contanier
+var conn = builder.Configuration.GetConnectionString("SchoolmanagementDbConnection");
+builder.Services.AddDbContext<SchoolManagementDbContext>(q =>q.UseSqlServer(conn));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
