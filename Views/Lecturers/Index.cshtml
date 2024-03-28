@@ -31,11 +31,50 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                <a  class="btn btn-primary"asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a  class="btn btn-warning"asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a  class="btn btn-danger"asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a  class="btn btn-warning"asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a  class="btn btn-primary"asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <!-- <a  class="btn btn-danger"asp-action="Delete" asp-route-id="@item.Id">Delete Old</a>-->
+                 <button data-id="@item.Id"class = "btn btn-danger deleteBtn"type = "button">Delete</button>
+                  <!--Comment out -->
             </td>
         </tr>
 }
     </tbody>
 </table>
+<form asp-action="Delete" id="lectureDeleteForm">
+        <input type="hidden" id="lectureid" name="Id"/>
+    </form>
+
+@section scripts{
+<script>
+    $(function(){
+    $('.deleteBtn').click(function(e){
+        e.preventDefault(); // Prevent default form submission
+
+        var btn = $(this);
+        var id = btn.data("id"); // Correct variable name
+
+        Swal.fire({
+            title: "Are you sure you want to delete?",
+            text: "This action cannot be reversed.\nProceed with caution.",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Deleted!", "", "success");
+                $('#lectureid').val(id); // Correct ID selector
+                $('#lectureDeleteForm').submit();
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not deleted", "", "info");
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+}

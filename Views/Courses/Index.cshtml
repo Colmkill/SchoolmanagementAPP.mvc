@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolmanagementAPP.mvc.Data.Course>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Courses";
 }
 
 <h1>Courses page</h1>
@@ -39,9 +39,50 @@
             <td>
                 <a class = "btn btn-warning"asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
                 <a class = "btn btn-primary"asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                <a class = "btn btn-danger"asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <!--<a class = "btn btn-danger"asp-action="Delete" asp-route-id="@item.Id">Delete OLD</a>-->
+                <button data-id="@item.Id"class = "btn btn-danger deleteBtn"type = "button">Delete</button>
+                <!--Comment out -->
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<form asp-action="Delete" id="courseDeleteForm">
+        <input type="hidden" id="courseid" name="Id"/>
+    </form>
+
+@section scripts{
+<script>
+    $(function(){
+    $('.deleteBtn').click(function(e){
+        e.preventDefault(); // Prevent default form submission
+
+        var btn = $(this);
+        var id = btn.data("id"); // Correct variable name
+
+        Swal.fire({
+            title: "Are you sure you want to delete?",
+            text: "This action cannot be reversed.\nProceed with caution.",
+            Icon: 'warning',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Deleted!", "", "success");
+                $('#courseid').val(id); // Correct ID selector
+                $('#courseDeleteForm').submit();
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not deleted", "", "info");
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+}
