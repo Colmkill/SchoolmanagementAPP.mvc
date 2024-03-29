@@ -11,7 +11,7 @@ public class StudentMetadata
 [Display(Name="Last Name")]
     public string LastName { get; set; } = null!;
 [Display(Name="Date Of Birth")]
-    public DateOnly? DataOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 }
 [ModelMetadataType(typeof(StudentMetadata))]
 public partial class Student();
