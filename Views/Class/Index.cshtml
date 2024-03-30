@@ -1,0 +1,93 @@
+@model IEnumerable<SchoolmanagementAPP.mvc.Data.Class>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Class page</h1>
+
+<p>
+    <a asp-action="Create"class = "btn btn-success">Create New Class</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lecturer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lecturer.Id)
+            </td>
+            <td>
+              <!--  <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |-->
+               <!--  <a asp-action="Details" asp-route-id="@item.Id">Details</a> |-->
+               <!--  <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>-->
+                <!--Comment out -->
+                <a class = "btn btn-warning"asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a class = "btn btn-primary"asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <!--<a class = "btn btn-danger"asp-action="Delete" asp-route-id="@item.Id">Delete OLD</a>-->
+                <button data-id="@item.Id"class = "btn btn-danger deleteBtn"type = "button">Delete</button>
+
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<form asp-action="Delete" id="courseDeleteForm">
+        <input type="hidden" id="courseid" name="Id"/>
+    </form>
+
+@section scripts{
+<script>
+    $(function(){
+    $('.table').DataTable();
+    $('.deleteBtn').click(function(e){
+        e.preventDefault(); // Prevent default form submission
+
+        var btn = $(this);
+        var id = btn.data("id"); // Correct variable name
+
+        Swal.fire({
+            title: "Are you sure you want to delete?",
+            text: "This action cannot be reversed.\nProceed with caution.",
+            Icon: 'warning',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            denyButtonText: `Don't delete`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Deleted!", "", "success");
+                $('#courseid').val(id); // Correct ID selector
+                $('#courseDeleteForm').submit();
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not deleted", "", "info");
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+}
