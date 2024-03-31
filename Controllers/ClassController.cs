@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using SchoolmanagementAPP.mvc.Data;
 
 namespace SchoolmanagementAPP.mvc.Controllers
 {
+    [Authorize]
     public class ClassController : Controller
     {
         private readonly SchoolManagementDbContext _context;
